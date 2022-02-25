@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+let dadosLogin
 
 context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
     /*  Como cliente 
@@ -8,13 +9,42 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         Adicionando ao carrinho
         Preenchendo todas opções no checkout
         E validando minha compra ao final */
-
-    beforeEach(() => {
-        cy.visit('/')
+    before(() => {
+        cy.fixture('perfil').then(perfil => {
+            dadosLogin = perfil
+        })
     });
 
+    beforeEach(() => {
+        cy.visit('/minha-conta')
+    });
+
+
     it('Deve fazer um pedido na loja Ebac Shop de ponta a ponta', () => {
-        //TODO 
+
+        cy.fixture('perfil').then((dados) => {
+            cy.login(dados.usuario, dados.senha)
+        })
+        cy.get('.page-title').should('contain', 'Minha conta')
+
+        cy.get('.logo-in-theme > .logo > a > .logo-img').click()
+        cy.get('#primary-menu > .menu-item-629 > a').click()
+        cy.addProdutos('Ariel Roll Sleeve Sweatshirt', 'XS', 'Red', 1)
+        cy.get('#primary-menu > .menu-item-629 > a').click()
+        cy.addProdutos('Abominable Hoodie', 'XS', 'Green', 1)
+        cy.get('#primary-menu > .menu-item-629 > a').click()
+        cy.addProdutos('Aether Gym Pant', '33', 'Brown', 1)
+        cy.get('#primary-menu > .menu-item-629 > a').click()
+        cy.addProdutos('Arcadio Gym Short', '33', 'Black', 1)
+
+        cy.get('.woocommerce-message > .button').click()
+        cy.get('.checkout-button').click()
+        cy.get('#order_comments').type('Teste de automatização do meu pedido')
+        cy.get('#terms').click()
+        cy.get('#place_order').click()
+
+        cy.get('.woocommerce-notice').should('contain', 'Obrigado. Seu pedido foi recebido.')
+
     });
 
 
