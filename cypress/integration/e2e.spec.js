@@ -29,21 +29,20 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
 
         cy.get('.logo-in-theme > .logo > a > .logo-img').click()
         cy.get('#primary-menu > .menu-item-629 > a').click()
-        cy.addProdutos('Ariel Roll Sleeve Sweatshirt', 'XS', 'Red', 1)
-        cy.get('#primary-menu > .menu-item-629 > a').click()
-        cy.addProdutos('Abominable Hoodie', 'XS', 'Green', 1)
-        cy.get('#primary-menu > .menu-item-629 > a').click()
-        cy.addProdutos('Aether Gym Pant', '33', 'Brown', 1)
-        cy.get('#primary-menu > .menu-item-629 > a').click()
+        cy.addProdutos('Ariel Roll Sleeve Sweatshirt', 'XS', 'Red', 1)        
+        cy.addProdutos('Abominable Hoodie', 'XS', 'Green', 1)        
+        cy.addProdutos('Aether Gym Pant', '33', 'Brown', 1)        
         cy.addProdutos('Arcadio Gym Short', '33', 'Black', 1)
 
-        cy.get('.woocommerce-message > .button').click()
-        cy.get('.checkout-button').click()
+        cy.get('.dropdown-toggle > .text-skin > .icon-basket').click()
+        cy.get('#cart > .dropdown-menu > .widget_shopping_cart_content > .mini_cart_content > .mini_cart_inner > .mcart-border > .buttons > .checkout').click()
+       
         cy.get('#order_comments').type('Teste de automatização do meu pedido')
         cy.get('#terms').click()
         cy.get('#place_order').click()
 
         cy.get('.woocommerce-notice').should('contain', 'Obrigado. Seu pedido foi recebido.')
+        
 
     });
 
